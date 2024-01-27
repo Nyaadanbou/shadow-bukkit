@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    compileOnlyApi("cc.mewcraft", "shadow", "1.4")
+    api("cc.mewcraft", "shadow", "1.4")
     compileOnly("org.checkerframework", "checker-qual", "2.4.0")
     compileOnly("org.bukkit", "bukkit", "1.15.2-R0.1-SNAPSHOT")
 }
