@@ -26,6 +26,7 @@
 package me.lucko.shadow.bukkit;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.Objects;
@@ -69,6 +70,12 @@ public enum PackageVersion {
     v1_20_R2(true),
     v1_20_R3(true),
     ;
+
+    // the "org.bukkit.craftbukkit" package is no longer relocated
+    // after Paper 1.20.5 (inclusive), hence, it is unnecessary
+    // to add more enums to here
+    //
+    // See: https://forums.papermc.io/threads/paper-velocity-1-20-4.998/#post-2955
 
     /**
      * The nms prefix (without the version component)
@@ -203,13 +210,19 @@ public enum PackageVersion {
     static {
         String serverVersion = "";
         // check we're dealing with a "CraftServer" and that the server isn't non-versioned.
-        Class<?> server = Bukkit.getServer().getClass();
-        if (server.getSimpleName().equals("CraftServer") && !server.getName().equals("org.bukkit.craftbukkit.CraftServer")) {
-            String obcPackage = server.getPackage().getName();
-            // check we're dealing with a craftbukkit implementation.
-            if (obcPackage.startsWith("org.bukkit.craftbukkit.")) {
-                // return the package version.
-                serverVersion = obcPackage.substring("org.bukkit.craftbukkit.".length());
+        Server server = Bukkit.getServer();
+        // noinspection ConstantValue
+        if (server != null) {
+            // we're in a real server environment
+            Class<?> serverClass = server.getClass();
+            if (serverClass.getSimpleName().equals("CraftServer") && !serverClass.getName().equals("org.bukkit.craftbukkit.CraftServer")) {
+                // the CraftBukkit package are relocated (e.g., "V1_20_R1")
+                String obcPackage = serverClass.getPackage().getName();
+                // check we're dealing with a CraftBukkit implementation.
+                if (obcPackage.startsWith("org.bukkit.craftbukkit.")) {
+                    // return the package version.
+                    serverVersion = obcPackage.substring("org.bukkit.craftbukkit.".length());
+                }
             }
         }
         RUNTIME_VERSION_STRING = serverVersion;
