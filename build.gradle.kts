@@ -19,28 +19,21 @@ tasks {
     }
 }
 
-val userHome: String = when {
-    System.getProperty("os.name").startsWith("Windows", ignoreCase = true) -> System.getenv("USERPROFILE")
-    else -> System.getenv("HOME")
-}
-
 repositories {
     mavenCentral()
-    maven(uri("$userHome/MewcraftRepository"))
-    maven(url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven(uri("${System.getProperty("user.home")}/MewcraftRepository"))
+    maven("https://repo.papermc.io/repository/maven-public/")
 }
 
 dependencies {
     api("cc.mewcraft", "shadow", "1.4")
     compileOnly("org.checkerframework", "checker-qual", "2.4.0")
-    compileOnly("org.bukkit", "bukkit", "1.15.2-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper", "paper-api", "1.17.1-R0.1-SNAPSHOT")
 }
 
 publishing {
     repositories {
-        maven {
-            url = uri("$userHome/MewcraftRepository")
-        }
+        maven(uri("${System.getProperty("user.home")}/MewcraftRepository"))
     }
     publications {
         create<MavenPublication>("maven") {
