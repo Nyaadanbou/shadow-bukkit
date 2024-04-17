@@ -33,8 +33,16 @@ dependencies {
 
 publishing {
     repositories {
-        maven(uri("${System.getProperty("user.home")}/MewcraftRepository"))
+        maven {
+            name = "mewcraftRepository"
+            url = uri("https://repo.mewcraft.cc/releases/")
+            credentials(PasswordCredentials::class)
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
     }
+
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
