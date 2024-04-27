@@ -21,7 +21,7 @@ tasks {
 
 repositories {
     mavenCentral()
-    maven(uri("${System.getProperty("user.home")}/MewcraftRepository"))
+    maven("https://repo.mewcraft.cc/releases/")
     maven("https://repo.papermc.io/repository/maven-public/")
 }
 
@@ -34,7 +34,7 @@ dependencies {
 publishing {
     repositories {
         maven {
-            name = "mewcraftRepository"
+            name = "nyaadanbou"
             url = uri("https://repo.mewcraft.cc/releases/")
             credentials(PasswordCredentials::class)
             authentication {
