@@ -41,51 +41,28 @@ public enum PackageVersion {
             return ".";
         }
     },
-    v1_7_R1,
-    v1_7_R2,
-    v1_7_R3,
-    v1_7_R4,
-    v1_8_R1,
-    v1_8_R2,
-    v1_8_R3,
-    v1_9_R1,
-    v1_9_R2,
-    v1_10_R1,
-    v1_11_R1,
-    v1_12_R1,
-    v1_13_R1,
-    v1_13_R2,
-    v1_14_R1,
-    v1_15_R1,
-    v1_16_R1,
-    v1_16_R2,
-    v1_16_R3,
-    v1_17_R1(true),
-    v1_18_R1(true),
-    v1_18_R2(true),
-    v1_19_R1(true),
-    v1_19_R2(true),
-    v1_19_R3(true),
-    v1_20_R1(true),
-    v1_20_R2(true),
-    v1_20_R3(true),
+    v1_17_R1,
+    v1_18_R1,
+    v1_18_R2,
+    v1_19_R1,
+    v1_19_R2,
+    v1_19_R3,
+    v1_20_R1,
+    v1_20_R2,
+    v1_20_R3,
+    // no more entries after v1_20_R3 since there's no CB package relocation anymore
     ;
 
-    // the "org.bukkit.craftbukkit" package is no longer relocated
-    // after Paper 1.20.5 (inclusive), hence, it is unnecessary
-    // to add more enums to here
+    // The "org.bukkit.craftbukkit" package is no longer relocated
+    // in Paper 1.20.5+ (inclusive), which means that the
+    // PackageVersion will always read a NONE in Paper.
     //
     // See: https://forums.papermc.io/threads/paper-velocity-1-20-4.998/#post-2955
 
     /**
-     * The nms prefix (without the version component)
-     */
-    public static final String NMS = "net.minecraft.server";
-
-    /**
      * The nms prefix for 1.17+ (excludes version component)
      */
-    public static final String NMS_MODERN = "net.minecraft.";
+    public static final String NMS = "net.minecraft.";
 
     /**
      * The obc prefix (without the version component)
@@ -96,11 +73,7 @@ public enum PackageVersion {
     private final @NonNull String obcPrefix;
 
     PackageVersion() {
-        this(false);
-    }
-
-    PackageVersion(boolean useModern) {
-        this.nmsPrefix = useModern ? NMS_MODERN : (NMS + getPackageComponent());
+        this.nmsPrefix = NMS;
         this.obcPrefix = OBC + getPackageComponent();
     }
 
@@ -208,15 +181,17 @@ public enum PackageVersion {
     private static final PackageVersion RUNTIME_VERSION;
 
     static {
+        // start with an empty string
         String serverVersion = "";
-        // check we're dealing with a "CraftServer" and that the server isn't non-versioned.
+
+        // check we're dealing with a "CraftServer" and that the package is relocated.
         Server server = Bukkit.getServer();
         // noinspection ConstantValue
         if (server != null) {
-            // we're in a real server environment
+            // we're in a real server environment, not junit test
             Class<?> serverClass = server.getClass();
             if (serverClass.getSimpleName().equals("CraftServer") && !serverClass.getName().equals("org.bukkit.craftbukkit.CraftServer")) {
-                // the CraftBukkit package are relocated (e.g., "V1_20_R1")
+                // the CraftBukkit package is relocated (e.g., "V1_20_R1")
                 String obcPackage = serverClass.getPackage().getName();
                 // check we're dealing with a CraftBukkit implementation.
                 if (obcPackage.startsWith("org.bukkit.craftbukkit.")) {
@@ -229,9 +204,14 @@ public enum PackageVersion {
 
         PackageVersion runtimeVersion = null;
         if (RUNTIME_VERSION_STRING.isEmpty()) {
+            // an empty string means that
+            // 1. the package is not relocated (Paper 1.20.5+), or
+            // 2. the environment is not in production
+            // in any cases, we fall back to NONE
             runtimeVersion = PackageVersion.NONE;
         } else {
             try {
+                // the server version should exactly match the enum value
                 runtimeVersion = PackageVersion.valueOf(serverVersion);
             } catch (IllegalArgumentException e) {
                 // ignore
