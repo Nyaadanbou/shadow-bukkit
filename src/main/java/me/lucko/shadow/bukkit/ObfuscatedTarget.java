@@ -25,6 +25,7 @@
 
 package me.lucko.shadow.bukkit;
 
+import cc.mewcraft.version.NmsVersion;
 import me.lucko.shadow.Shadow;
 import me.lucko.shadow.TargetResolver;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -59,7 +60,7 @@ public @interface ObfuscatedTarget {
         public @NonNull Optional<Class<?>> lookupClass(@NonNull Class<? extends Shadow> shadowClass) throws ClassNotFoundException {
             String className = Optional.ofNullable(shadowClass.getAnnotation(ObfuscatedTarget.class))
                     .flatMap(annotation -> Arrays.stream(annotation.value())
-                            .filter(mapping -> PackageVersion.runtimeVersion() == mapping.version())
+                            .filter(mapping -> NmsVersion.runtimeVersion() == mapping.version())
                             .findFirst()
                     )
                     .map(Mapping::value)
@@ -75,7 +76,7 @@ public @interface ObfuscatedTarget {
         public @NonNull Optional<String> lookupMethod(@NonNull Method shadowMethod, @NonNull Class<? extends Shadow> shadowClass, @NonNull Class<?> targetClass) {
             return Optional.ofNullable(shadowMethod.getAnnotation(ObfuscatedTarget.class))
                     .flatMap(annotation -> Arrays.stream(annotation.value())
-                            .filter(mapping -> PackageVersion.runtimeVersion() == mapping.version())
+                            .filter(mapping -> NmsVersion.runtimeVersion() == mapping.version())
                             .findFirst()
                     )
                     .map(Mapping::value);
@@ -85,7 +86,7 @@ public @interface ObfuscatedTarget {
         public @NonNull Optional<String> lookupField(@NonNull Method shadowMethod, @NonNull Class<? extends Shadow> shadowClass, @NonNull Class<?> targetClass) {
             return Optional.ofNullable(shadowMethod.getAnnotation(ObfuscatedTarget.class))
                     .flatMap(annotation -> Arrays.stream(annotation.value())
-                            .filter(mapping -> PackageVersion.runtimeVersion() == mapping.version())
+                            .filter(mapping -> NmsVersion.runtimeVersion() == mapping.version())
                             .findFirst()
                     )
                     .map(Mapping::value);

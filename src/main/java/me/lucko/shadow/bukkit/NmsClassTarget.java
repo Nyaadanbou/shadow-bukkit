@@ -25,6 +25,7 @@
 
 package me.lucko.shadow.bukkit;
 
+import cc.mewcraft.version.NmsVersion;
 import me.lucko.shadow.Shadow;
 import me.lucko.shadow.TargetResolver;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -60,7 +61,7 @@ public @interface NmsClassTarget {
                 return Optional.empty();
             }
 
-            return Optional.of(PackageVersion.runtimeVersion().nmsClass(annotation.value()));
+            return Optional.of(NmsVersion.runtimeVersion().nmsClass(annotation.value()));
         }
     };
 

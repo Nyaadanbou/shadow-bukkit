@@ -25,13 +25,15 @@
 
 package me.lucko.shadow.bukkit;
 
+import cc.mewcraft.version.NmsVersion;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Represents a target value for a specific {@link PackageVersion}.
+ * Represents a target value for a specific {@link NmsVersion}.
  */
 @Target(ElementType.ANNOTATION_TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -42,7 +44,7 @@ public @interface Mapping {
      *
      * @return the package version
      */
-    PackageVersion version();
+    NmsVersion version();
 
     /**
      * Gets the target value.
