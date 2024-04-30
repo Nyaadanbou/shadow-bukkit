@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "cc.mewcraft"
-version = "1.20.5-SNAPSHOT" // track MC version
+version = "1.20.6-SNAPSHOT" // track MC version
 
 java {
     withSourcesJar()
