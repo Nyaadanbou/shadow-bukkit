@@ -27,7 +27,6 @@ package me.lucko.shadow.bukkit;
 
 import me.lucko.shadow.Shadow;
 import me.lucko.shadow.TargetResolver;
-
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.lang.annotation.ElementType;
@@ -37,14 +36,14 @@ import java.lang.annotation.Target;
 import java.util.Optional;
 
 /**
- * Defines a class target relative to the versioned 'net.minecraft.server' package.
+ * Defines a class target relative to the {@code net.minecraft} package.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NmsClassTarget {
 
     /**
-     * Gets the value of the class, relative to the versioned package.
+     * Gets the value of the class, relative to the package.
      *
      * @return the value
      */

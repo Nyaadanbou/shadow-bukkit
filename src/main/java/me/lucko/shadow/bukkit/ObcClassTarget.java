@@ -27,7 +27,6 @@ package me.lucko.shadow.bukkit;
 
 import me.lucko.shadow.Shadow;
 import me.lucko.shadow.TargetResolver;
-
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.lang.annotation.ElementType;
@@ -37,7 +36,7 @@ import java.lang.annotation.Target;
 import java.util.Optional;
 
 /**
- * Defines a class target relative to the versioned 'org.bukkit.craftbukkit' package.
+ * Defines a class target relative to the versioned {@code org.bukkit.craftbukkit} package.
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
