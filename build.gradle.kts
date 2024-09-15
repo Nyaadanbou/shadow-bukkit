@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    api("cc.mewcraft", "shadow", "1.4")
+    api("cc.mewcraft", "shadow", "1.5")
     api("cc.mewcraft", "minecraft-versions", "2.0-SNAPSHOT")
     compileOnly("org.checkerframework", "checker-qual", "2.4.0")
     compileOnly("io.papermc.paper", "paper-api", "1.17.1-R0.1-SNAPSHOT")
