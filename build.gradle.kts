@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "cc.mewcraft"
-version = "1.21.1-SNAPSHOT" // track MC version
+version = "1.21.3-SNAPSHOT" // track MC version
 
 java {
     withSourcesJar()
@@ -34,12 +34,10 @@ dependencies {
 
 publishing {
     repositories {
-        maven {
-            name = "nyaadanbou"
-            url = uri("https://repo.mewcraft.cc/releases/")
-            credentials(PasswordCredentials::class)
-            authentication {
-                create<BasicAuthentication>("basic")
+        maven("https://repo.mewcraft.cc/releases") {
+            credentials {
+                username = providers.gradleProperty("nyaadanbou.mavenUsername").orNull
+                password = providers.gradleProperty("nyaadanbou.mavenPassword").orNull
             }
         }
     }
